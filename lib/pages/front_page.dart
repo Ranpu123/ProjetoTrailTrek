@@ -93,10 +93,10 @@ class FirstPage extends StatelessWidget {
                                     foregroundColor: Colors.black87,
                                     backgroundColor: Colors.white,
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                        vertical: 23),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(15))),
+                                            Radius.circular(10))),
                                   ),
                                   child: const Text('Sign-in'))),
                           const SizedBox(
@@ -116,10 +116,10 @@ class FirstPage extends StatelessWidget {
                                     backgroundColor: Colors.black,
                                     foregroundColor: Colors.white,
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                        vertical: 23),
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(15))),
+                                            Radius.circular(10))),
                                   ),
                                   child: const Text('Login'))),
                         ],

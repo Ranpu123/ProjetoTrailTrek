@@ -164,10 +164,10 @@ class LoginPageState extends State<LoginPage> {
                                         backgroundColor: Colors.white,
                                         foregroundColor: Colors.black,
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 30),
+                                            vertical: 23),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
-                                                Radius.circular(15))),
+                                                Radius.circular(10))),
                                       ),
                                       child: const Text('Login')),
                                 ),
