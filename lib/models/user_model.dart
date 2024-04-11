@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class User{
+class User {
   String? uid;
   final String username;
   final String email;
@@ -15,8 +15,8 @@ class User{
     required this.createdAt,
   });
 
-  Map<String, dynamic> toMap(){
-    return{
+  Map<String, dynamic> toMap() {
+    return {
       'uid': uid,
       'username': username,
       'email': email,
@@ -39,18 +39,20 @@ class User{
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
-  bool validateEmail(String email){
-    if (email.isNotEmpty){
-      return RegExp(r'/^[a-zA-Z0-9. _%+-]+@[a-zA-Z0-9. -]+\\. [a-zA-Z]{2,}$/').hasMatch(email);
+  static bool validateEmail(String email) {
+    if (email.isNotEmpty) {
+      return RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          .hasMatch(email);
     }
     return false;
   }
 
-  bool validatePassword(String password1, String password2){
-    if(password1.length < 8){
+  static bool validateNewPassword(String password1, String password2) {
+    if (password1.length < 8) {
       return false;
     }
-    if (password1.isNotEmpty && password2.isNotEmpty){
+    if (password1.isNotEmpty && password2.isNotEmpty) {
       return password1 == password2 ? true : false;
     }
     return false;
