@@ -4,6 +4,20 @@ import 'package:projeto_dev_disp_mob/services/User/users_repository.dart';
 class LocalUserRepository extends UserRepository {
   List<User> _users = [];
 
+  LocalUserRepository() {
+    _localdata();
+  }
+
+  void _localdata() {
+    _users.addAll([
+      User(
+          username: 'username',
+          email: 'test@test.com',
+          password: 'test',
+          createdAt: DateTime.now()),
+    ]);
+  }
+
   @override
   Future<bool> create(User user) {
     _users.add(user);

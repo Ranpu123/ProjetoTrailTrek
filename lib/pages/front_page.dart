@@ -9,6 +9,9 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
+        decoration: const BoxDecoration(color: Colors.white),
+      ),
+      Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage(
@@ -19,116 +22,101 @@ class FirstPage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-      ),
-      Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Padding(
-            padding: const EdgeInsets.only(
-                top: 50.0, left: 30.0, right: 30.0, bottom: 30.0),
-            // ignore: avoid_unnecessary_containers
-            child: Container(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+              padding: const EdgeInsets.only(
+                  top: 30.0, left: 8.0, right: 8.0, bottom: 8.0),
+              // ignore: avoid_unnecessary_containers
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            'TrailTrek',
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 48.0,
-                              height: 0.0,
-                            ),
-                          ),
-                          Text(
-                            'Connect&Share',
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 32.0,
-                              height: 0.0,
-                            ),
-                          ),
-                        ],
-                      )
+                      Text(
+                        'TrailTrek',
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 48.0,
+                          height: 0.0,
+                        ),
+                      ),
+                      Text(
+                        'Connect&Share',
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 32.0,
+                          height: 0.0,
+                        ),
+                      ),
                     ],
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Go beyond the horizon',
-                            textAlign: TextAlign.start,
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
-                              height: 0.0,
-                            ),
-                          ),
-                          Text(
-                            'Embark on your next adventure with ease '
-                            'using our app designed exclusively for adventurers.',
-                            textAlign: TextAlign.start,
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 15.0,
-                              height: 0.0,
-                            ),
-                          ),
-                        ],
-                      )
+                      Text(
+                        'Go beyond the horizon',
+                        textAlign: TextAlign.start,
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.0,
+                          height: 0.0,
+                        ),
+                      ),
+                      Text(
+                        'Embark on your next adventure with ease '
+                        'using our app designed exclusively for adventurers.',
+                        textAlign: TextAlign.start,
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 15.0,
+                          height: 0.0,
+                        ),
+                      ),
                     ],
                   ),
-                  Column(
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                              child: OutlinedButton(
-                                  onPressed: () {},
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.black87,
-                                    backgroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 23),
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                  ),
-                                  child: const Text('Sign-in'))),
-                          const SizedBox(
-                            width: 20.0,
-                          ),
-                          Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage()),
-                                    );
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 23),
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                  ),
-                                  child: const Text('Login'))),
-                        ],
-                      )
+                      Expanded(
+                          child: OutlinedButton(
+                              onPressed: () {},
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.black87,
+                                backgroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                              ),
+                              child: const Text('Sign-in'))),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Expanded(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                foregroundColor: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                              ),
+                              child: const Text('Login'))),
                     ],
                   )
                 ],
-              ),
-            )),
+              )),
+        ),
       ),
     ]);
   }

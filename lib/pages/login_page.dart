@@ -2,6 +2,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
+import 'package:projeto_dev_disp_mob/pages/front_page.dart';
+import 'package:projeto_dev_disp_mob/pages/main_page.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,6 +25,9 @@ class LoginPageState extends State<LoginPage> {
     return Stack(
       children: [
         Container(
+          decoration: const BoxDecoration(color: Colors.white),
+        ),
+        Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: const AssetImage(
@@ -39,14 +44,15 @@ class LoginPageState extends State<LoginPage> {
           body: Center(
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: 50.0, left: 30.0, right: 30.0, bottom: 30.0),
+                  top: 30.0, left: 15.0, right: 15.0, bottom: 30.0),
               child: Container(
                 decoration: const BoxDecoration(
                     //backgroundBlendMode: BlendMode.exclusion,
                     color: Colors.black87,
                     borderRadius: BorderRadius.all(Radius.circular(30))),
                 child: Padding(
-                  padding: const EdgeInsets.all(50),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -91,7 +97,7 @@ class LoginPageState extends State<LoginPage> {
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 30),
+                              const SizedBox(height: 25),
                               TextFormField(
                                 obscureText: true,
                                 decoration: const InputDecoration(
@@ -125,13 +131,13 @@ class LoginPageState extends State<LoginPage> {
                                     textAlign: TextAlign.end,
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w300,
-                                      fontSize: 15.0,
+                                      fontSize: 12.0,
                                       color: Colors.white,
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 60),
+                              const SizedBox(height: 50),
                               SizedBox(
                                 width: double.infinity,
                                 child: Padding(
@@ -148,6 +154,12 @@ class LoginPageState extends State<LoginPage> {
                                             if (value) {
                                               print(usersProvider
                                                   .loggedUser!.email);
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MainPage()),
+                                              );
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -164,7 +176,7 @@ class LoginPageState extends State<LoginPage> {
                                         backgroundColor: Colors.white,
                                         foregroundColor: Colors.black,
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 23),
+                                            vertical: 15),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10))),
