@@ -1,6 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/pages/login_page.dart';
+import 'package:projeto_dev_disp_mob/pages/signup_page.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({super.key});
@@ -79,7 +80,13 @@ class FirstPage extends StatelessWidget {
                     children: [
                       Expanded(
                           child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignUpPage()),
+                                );
+                              },
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.black87,
                                 backgroundColor: Colors.white,

@@ -48,6 +48,13 @@ class User {
     return false;
   }
 
+  static bool validateUsername(String username) {
+    if (username.isNotEmpty) {
+      return RegExp(r'^[a-zA-Z0-9]+$').hasMatch(username);
+    }
+    return false;
+  }
+
   static bool validateNewPassword(String password1, String password2) {
     if (password1.length < 8) {
       return false;
