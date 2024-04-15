@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/pages/front_page.dart';
+import 'package:projeto_dev_disp_mob/services/Trail/local_trails_repository.dart';
 import 'package:projeto_dev_disp_mob/services/User/local_user_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +11,11 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => UserController(LocalUserRepository())),
+          create: (context) => UserController(LocalUserRepository()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TrailController(LocalTrailRepository()),
+        ),
       ],
       child: const MyApp(),
     ),

@@ -1,21 +1,17 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
-import 'package:projeto_dev_disp_mob/models/user_model.dart';
-import 'package:projeto_dev_disp_mob/pages/front_page.dart';
 import 'package:projeto_dev_disp_mob/pages/trailslist_page.dart';
-import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _mainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _mainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
-  List<Widget> list = [
+  List<Widget> list = const [
     TrailsListPage(),
     Text(''),
     Text('Profile Window'),

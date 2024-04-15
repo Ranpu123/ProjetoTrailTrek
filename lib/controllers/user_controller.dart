@@ -66,12 +66,9 @@ class UserController extends ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
-    User? user;
     for (var user in users) {
-      print('${user!.password} SENHA');
-      if (user!.email == email && user!.password == password) {
+      if (user!.email == email && user.password == password) {
         loggedUser = user;
-        print('${user.email} EMAIL ACEITO');
         return Future.value(true);
       }
     }
