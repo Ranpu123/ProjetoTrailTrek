@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
 import 'package:projeto_dev_disp_mob/pages/front_page.dart';
+import 'package:projeto_dev_disp_mob/pages/profile_page.dart';
 import 'package:projeto_dev_disp_mob/pages/trailslist_page.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class _mainPageState extends State<MainPage> {
   List<Widget> list = [
     TrailsListPage(),
     Text(''),
-    Text('Profile Window'),
+    ProfilePage(),
   ];
 
   @override
