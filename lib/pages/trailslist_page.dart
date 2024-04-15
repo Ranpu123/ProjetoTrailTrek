@@ -40,12 +40,10 @@ class _TrailsListPageState extends State<TrailsListPage> {
                         )
                       ],
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        const Column(
                           children: [
-                            Divider(),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -68,6 +66,9 @@ class _TrailsListPageState extends State<TrailsListPage> {
                                     )
                                   ],
                                 ),
+                                SizedBox(
+                                  height: 15,
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -86,6 +87,9 @@ class _TrailsListPageState extends State<TrailsListPage> {
                                           height: 0),
                                     )
                                   ],
+                                ),
+                                SizedBox(
+                                  height: 15,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +123,31 @@ class _TrailsListPageState extends State<TrailsListPage> {
                             )
                           ],
                         ),
-                        Column()
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.30,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      8), // Bordas arredondadas
+                                  image: const DecorationImage(
+                                    image: NetworkImage(
+                                      'https://i.imgur.com/0AlwvzW.png', // URL da imagem
+                                    ),
+                                    fit: BoxFit
+                                        .cover, // Ajusta a imagem para cobrir o container
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     )
                   ],

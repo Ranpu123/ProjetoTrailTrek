@@ -22,6 +22,8 @@ class LoginPageState extends State<LoginPage> {
     final emailcontroller = TextEditingController();
     final passwordcontroller = TextEditingController();
 
+    print(usersProvider.users[1]!.username);
+
     return Stack(
       children: [
         Container(

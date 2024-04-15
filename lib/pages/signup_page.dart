@@ -210,8 +210,8 @@ class SignUpPageState extends State<SignUpPage> {
                                             .validate()) {
                                           usersProvider.registerUser(
                                               usernamecontroller.text,
-                                              emailcontroller.text,
-                                              passwordcontroller.text);
+                                              passwordcontroller.text,
+                                              emailcontroller.text);
                                         }
                                       },
                                       style: OutlinedButton.styleFrom(
