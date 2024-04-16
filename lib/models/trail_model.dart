@@ -9,7 +9,7 @@ class Trail {
   final String uid;
   final String username;
   final String name;
-  String? description;
+  String description;
   final double distance;
   final double elevation;
   final double maxElevation;
@@ -24,7 +24,7 @@ class Trail {
       required this.uid,
       required this.username,
       required this.name,
-      this.description,
+      required this.description,
       required this.distance,
       required this.elevation,
       required this.maxElevation,

@@ -253,17 +253,48 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
                 child: Column(
                   children: [
-                    RatingBarIndicator(
-                        rating: 2.5,
-                        itemCount: 5,
-                        itemSize: 30.0,
-                        itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.red,
-                            ))
+                    Text(
+                      trail.description as String,
+                    ),
                   ],
                 ),
-              )
+              ),
+              Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text('Rating and Coments: '),
+                        Row(
+                          children: [
+                            RatingBarIndicator(
+                              rating: trail.trailRating(),
+                              itemCount: 5,
+                              itemSize: 30.0,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                            ),
+                            Text(
+                                '(${trail.coments.length}) ${trail.trailRating()}'),
+                          ],
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.chat,
+                          color: Colors.black,
+                        ))
+                  ],
+                ),
+              ),
+              Divider(),
             ],
           ),
         ],
