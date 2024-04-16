@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:projeto_dev_disp_mob/services/Trail/local_trails_repository.dart';
+import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
+import 'package:projeto_dev_disp_mob/pages/trail_detail_page.dart';
 import 'package:provider/provider.dart';
 
 class TrailsListPage extends StatefulWidget {
@@ -14,117 +13,161 @@ class TrailsListPage extends StatefulWidget {
 class _TrailsListPageState extends State<TrailsListPage> {
   @override
   Widget build(BuildContext context) {
+    final trailProvider = Provider.of<TrailController>(context);
+
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: ListView.separated(
-        itemCount: 50,
+        itemCount: trailProvider.trails.length,
         itemBuilder: (context, index) {
-          return Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.nordic_walking,
-                          color: Colors.black54,
-                        ),
-                        Flexible(
-                          child: Text(
-                            '$index Trilha do morro da santa - Alagados Ponta Grossa',
-                            maxLines: 2,
-                            style: TextStyle(height: 0),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TrailDetailsPage(trail: trailProvider.trails[index]),
+                  ));
+            },
+            child: Card(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.nordic_walking,
+                            color: Colors.black54,
                           ),
-                        )
-                      ],
-                    ),
-                    const Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Divider(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          Flexible(
+                            child: Text(
+                              trailProvider.trails[index].name,
+                              maxLines: 2,
+                              style: const TextStyle(height: 0),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Distance',
+                                        style: TextStyle(
+                                            color: Colors.black26,
+                                            fontSize: 8,
+                                            height: 0),
+                                      ),
+                                      Text(
+                                        '${trailProvider.trails[index].distance} Km',
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            height: 0),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Elevation',
+                                        style: TextStyle(
+                                            color: Colors.black26,
+                                            fontSize: 8,
+                                            height: 0),
+                                      ),
+                                      Text(
+                                        '${trailProvider.trails[index].elevation} m',
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            height: 0),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Rating',
+                                        style: TextStyle(
+                                            color: Colors.black26,
+                                            fontSize: 8,
+                                            height: 0),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '(${trailProvider.trails[index].coments.length}) ${trailProvider.trails[index].trailRating()}',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                height: 0),
+                                          ),
+                                          const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                            size: 12,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: Column(
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Distance',
-                                      style: TextStyle(
-                                          color: Colors.black26,
-                                          fontSize: 8,
-                                          height: 0),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.30,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        8), // Bordas arredondadas
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        trailProvider.trails[index].images
+                                            .first, // URL da imagem
+                                      ),
+                                      fit: BoxFit
+                                          .cover, // Ajusta a imagem para cobrir o container
                                     ),
-                                    Text(
-                                      '7,19 Km',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          height: 0),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Elevation',
-                                      style: TextStyle(
-                                          color: Colors.black26,
-                                          fontSize: 8,
-                                          height: 0),
-                                    ),
-                                    Text(
-                                      '308 m',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          height: 0),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Rating',
-                                      style: TextStyle(
-                                          color: Colors.black26,
-                                          fontSize: 8,
-                                          height: 0),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '(0) 0.0',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              height: 0),
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 12,
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
                               ],
-                            )
-                          ],
-                        ),
-                        Column()
-                      ],
-                    )
-                  ],
-                ),
-              ));
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                )),
+          );
         },
         separatorBuilder: (context, index) {
           return const Divider(

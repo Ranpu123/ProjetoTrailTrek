@@ -2,7 +2,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
-import 'package:projeto_dev_disp_mob/pages/front_page.dart';
 import 'package:projeto_dev_disp_mob/pages/main_page.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +13,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Verifica se o usuário logado já foi inicializado
+      final userController =
+          Provider.of<UserController>(context, listen: false);
+
+      if (userController.loggedUser != null) {
+        // Se o usuário já estiver logado, navegue para a MainPage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final usersProvider = Provider.of<UserController>(context);
@@ -152,8 +169,6 @@ class LoginPageState extends State<LoginPage> {
                                                   passwordcontroller.text)
                                               .then((value) {
                                             if (value) {
-                                              print(usersProvider
-                                                  .loggedUser!.email);
                                               Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
