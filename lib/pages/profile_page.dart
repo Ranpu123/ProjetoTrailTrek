@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:projeto_dev_disp_mob/pages/iwanttogo_page.dart';
+import 'package:projeto_dev_disp_mob/pages/mytrails_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -102,7 +104,11 @@ class ProfilePageState extends State<ProfilePage> {
                       trailing: IconButton(
                         icon: Icon(Icons.arrow_forward_ios),
                         onPressed: () {
-                          print('My trails clicked');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyTrailsPage()),
+                          );
                         },
                       ),
                     ),
@@ -118,7 +124,11 @@ class ProfilePageState extends State<ProfilePage> {
                       trailing: IconButton(
                         icon: Icon(Icons.arrow_forward_ios),
                         onPressed: () {
-                          print('I want to go clicked');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IWantToGoPage()),
+                          );
                         },
                       ),
                     ),
