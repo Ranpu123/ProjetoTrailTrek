@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
+import 'package:projeto_dev_disp_mob/models/user_model.dart';
 import 'package:projeto_dev_disp_mob/pages/iwanttogo_page.dart';
 import 'package:projeto_dev_disp_mob/pages/mytrails_page.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
+  //final User user;
+  //const ProfilePage({super.key, required this.user});
   const ProfilePage({super.key});
 
   @override
@@ -13,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserController>(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -77,7 +83,8 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                       SizedBox(height: 8), // Espaço entre o avatar e o texto
                       Text(
-                        "username",
+                        //'${userProvider.users.username}',
+                        'Username',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

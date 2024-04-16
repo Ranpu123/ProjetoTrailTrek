@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:projeto_dev_disp_mob/pages/comment_page.dart';
 import 'package:projeto_dev_disp_mob/widget/carousel.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
@@ -20,6 +21,13 @@ class TrailDetailsPage extends StatefulWidget {
 
 class _TrailDetailsPageState extends State<TrailDetailsPage> {
   @override
+  bool _isFavorited = false;
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorited = !_isFavorited;
+    });
+  }
+
   void initState() {
     super.initState();
 
@@ -286,11 +294,27 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                       ],
                     ),
                     IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.chat,
-                          color: Colors.black,
-                        ))
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CommentPage()),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.chat,
+                        color: Colors.black,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        _isFavorited
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        color: _isFavorited ? Colors.red : null,
+                      ),
+                      onPressed: _toggleFavorite,
+                    ),
                   ],
                 ),
               ),
