@@ -26,7 +26,7 @@ class _TrailsListPageState extends State<TrailsListPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        TrailDetailsPage(id: trailProvider.trails[index].id),
+                        TrailDetailsPage(trail: trailProvider.trails[index]),
                   ));
             },
             child: Card(

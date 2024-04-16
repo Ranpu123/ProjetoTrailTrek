@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:projeto_dev_disp_mob/models/coments_model.dart';
 
@@ -87,5 +89,34 @@ class Trail {
     }
 
     return coments.isNotEmpty ? meanRating / coments.length : meanRating;
+  }
+
+  LatLng averageLatLng() {
+    if (points.isEmpty) {
+      return const LatLng(0, 0);
+    }
+
+    double sumLat = 0.0;
+    double sumLng = 0.0;
+
+    for (LatLng point in points) {
+      sumLat += point.latitude;
+      sumLng += point.longitude;
+    }
+
+    double avgLat = sumLat / points.length;
+    double avgLng = sumLng / points.length;
+
+    return LatLng(avgLat, avgLng);
+  }
+
+  String getHoursAndMinutes() {
+    int hours = duration ~/ 60;
+    int remainingMinutes = (duration % 60).round();
+
+    String hoursAndMinutes =
+        '$hours h ${remainingMinutes.toString().padLeft(2, '0')} m';
+
+    return hoursAndMinutes;
   }
 }
