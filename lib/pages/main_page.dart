@@ -1,6 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/pages/profile_page.dart';
+import 'package:projeto_dev_disp_mob/pages/record_trail_page.dart';
 import 'package:projeto_dev_disp_mob/pages/trailslist_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -37,7 +38,12 @@ class _MainPageState extends State<MainPage> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,
         backgroundColor: Colors.black,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const RecordTrailPage()),
+          );
+        },
         child: const Icon(
           Icons.radio_button_checked_rounded,
           size: 32,
