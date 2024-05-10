@@ -49,4 +49,10 @@ class LocalUserRepository extends UserRepository {
   Future<List<User>> fetchAll() {
     return Future.value(_users);
   }
+
+  @override
+  Future<User?> getById(String id) {
+    // TODO: implement getById
+    throw UnimplementedError();
+  }
 }

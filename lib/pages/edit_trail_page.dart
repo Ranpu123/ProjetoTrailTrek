@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
+import 'package:projeto_dev_disp_mob/models/trail_model.dart';
 import 'package:provider/provider.dart';
 
-class RecordTrailPage extends StatefulWidget {
-  const RecordTrailPage({super.key});
+class EditTrailPage extends StatefulWidget {
+  final Trail trail;
+  const EditTrailPage({super.key, required this.trail});
 
   @override
-  State<RecordTrailPage> createState() => _RecordTrailPageState();
+  State<EditTrailPage> createState() => _EditTrailPageState();
 }
 
-class _RecordTrailPageState extends State<RecordTrailPage> {
+class _EditTrailPageState extends State<EditTrailPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = widget.trail.name;
+    _descriptionController.text = widget.trail.description;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +30,7 @@ class _RecordTrailPageState extends State<RecordTrailPage> {
     final userProvider = Provider.of<UserController>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Saving Record'),
+        title: const Text('Updating Record'),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
@@ -73,35 +81,28 @@ class _RecordTrailPageState extends State<RecordTrailPage> {
           child: ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                trailProvider.createTrail(
+                trailProvider
+                    .updateTrail(
+                  widget.trail.id!,
                   userProvider.loggedUser!.uid!,
                   userProvider.loggedUser!.username,
                   _nameController.text,
                   _descriptionController.text,
-                  7.19,
-                  308,
-                  500,
-                  78,
-                  const [
-                    LatLng(-25.02095165946743, -50.060495950131404),
-                    LatLng(-25.020004932573844, -50.06153520675037),
-                    LatLng(-25.01989070603476, -50.0626116730901),
-                    LatLng(-25.016612033444382, -50.064359654031634),
-                    LatLng(-25.015100274658174, -50.061776307357114),
-                    LatLng(-25.015430836906418, -50.06051030475191),
-                    LatLng(-25.014137750102453, -50.060810712149745),
-                    LatLng(-25.00853127629199, -50.06106123111519),
-                    LatLng(-25.013747450868873, -50.05436702588947),
-                    LatLng(-25.017688050213025, -50.04301755157397),
-                    LatLng(-25.014663120094298, -50.04050948002432),
-                    LatLng(-25.01569323979217, -50.04327016288908),
-                  ],
-                ).then((value) {
+                  widget.trail.distance,
+                  widget.trail.elevation,
+                  widget.trail.maxElevation,
+                  widget.trail.duration,
+                  widget.trail.createdAt,
+                  widget.trail.points,
+                  widget.trail.coments,
+                  widget.trail.images,
+                )
+                    .then((value) {
                   if (value == false) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content:
-                            Text('An error ocurred while saving the Trail!'),
+                            Text('An error ocurred while updating the Trail!'),
                       ),
                     );
                   } else {

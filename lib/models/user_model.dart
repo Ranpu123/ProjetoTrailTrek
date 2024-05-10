@@ -20,18 +20,18 @@ class User {
       'uid': uid,
       'username': username,
       'email': email,
-      'password': password,
-      'createdAt': createdAt,
+      'password': '*',
+      'createdAt': createdAt.microsecondsSinceEpoch,
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
+  factory User.fromMap(Map<dynamic, dynamic> map) {
     return User(
       uid: map['uid'],
       username: map['username'],
       email: map['email'],
       password: map['password'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      createdAt: DateTime.fromMicrosecondsSinceEpoch(map['createdAt']),
     );
   }
 

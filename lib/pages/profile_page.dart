@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/pages/iwanttogo_page.dart';
 import 'package:projeto_dev_disp_mob/pages/mytrails_page.dart';
+import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,6 +15,7 @@ class ProfilePage extends StatefulWidget {
 class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final userController = Provider.of<UserController>(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -27,12 +30,12 @@ class ProfilePageState extends State<ProfilePage> {
                     height: 250,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: BorderRadius.only(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
                       ),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 15,
@@ -52,14 +55,20 @@ class ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
-                        backgroundColor: Color.fromARGB(255, 230, 230, 230),
+                        backgroundColor:
+                            const Color.fromARGB(255, 230, 230, 230),
                         radius: 50,
                         child: CircleAvatar(
+                          backgroundImage:
+                              const AssetImage('images/avatar.png'),
+                          radius: 48,
+                          backgroundColor: Colors.white,
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.only(top: 45, left: 80),
-                                child: Center(
+                                padding:
+                                    const EdgeInsets.only(top: 45, left: 80),
+                                child: const Center(
                                   child: Icon(
                                     color: Colors.black,
                                     Icons.photo,
@@ -69,16 +78,13 @@ class ProfilePageState extends State<ProfilePage> {
                               ),
                             ],
                           ),
-                          backgroundImage:
-                              const AssetImage('images/avatar.png'),
-                          radius: 48,
-                          backgroundColor: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 8), // Espaço entre o avatar e o texto
+                      const SizedBox(
+                          height: 8), // Espaço entre o avatar e o texto
                       Text(
-                        "username",
-                        style: TextStyle(
+                        userController.loggedUser!.username,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -100,14 +106,14 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                     elevation: 5,
                     child: ListTile(
-                      title: Text('My trails'),
+                      title: const Text('My trails'),
                       trailing: IconButton(
-                        icon: Icon(Icons.arrow_forward_ios),
+                        icon: const Icon(Icons.arrow_forward_ios),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyTrailsPage()),
+                                builder: (context) => const MyTrailsPage()),
                           );
                         },
                       ),
@@ -120,16 +126,56 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                     elevation: 5,
                     child: ListTile(
-                      title: Text('I want to go'),
+                      title: const Text('I want to go'),
                       trailing: IconButton(
-                        icon: Icon(Icons.arrow_forward_ios),
+                        icon: const Icon(Icons.arrow_forward_ios),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => IWantToGoPage()),
+                                builder: (context) => const IWantToGoPage()),
                           );
                         },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                      height: 16), // Add some space before the logout button
+                  // Logout button
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Call the signOut method from your authentication service
+                      Provider.of<AuthService>(context, listen: false).logout();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      overlayColor: MaterialStateProperty.all(Colors.red[100]),
+                      elevation: MaterialStateProperty.all(1),
+                      side: MaterialStateProperty.all(
+                        const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    icon: const Icon(
+                      Icons.exit_to_app,
+                      color: Colors.red,
+                    ),
+                    label: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),

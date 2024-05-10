@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
+import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -12,10 +15,26 @@ class SignUpPage extends StatefulWidget {
 }
 
 class SignUpPageState extends State<SignUpPage> {
+  register(String email, String passwd, String username) async {
+    try {
+      await context.read<AuthService>().register(email, passwd);
+
+      if (context.read<AuthService>().usuario != null) {
+        await context.read<UserController>().registerUser(
+            context.read<AuthService>().usuario!.uid, username, passwd, email);
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Failed to register the user.")));
+      }
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final usersProvider = Provider.of<UserController>(context);
-
     final usernamecontroller = TextEditingController();
     final signupForm = GlobalKey<FormState>();
     final emailcontroller = TextEditingController();
@@ -208,10 +227,11 @@ class SignUpPageState extends State<SignUpPage> {
                                       onPressed: () {
                                         if (signupForm.currentState!
                                             .validate()) {
-                                          usersProvider.registerUser(
-                                              usernamecontroller.text,
-                                              passwordcontroller.text,
-                                              emailcontroller.text);
+                                          register(
+                                            emailcontroller.text,
+                                            passwordcontroller.text,
+                                            usernamecontroller.text,
+                                          );
                                         }
                                       },
                                       style: OutlinedButton.styleFrom(

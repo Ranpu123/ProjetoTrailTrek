@@ -104,4 +104,16 @@ class LocalTrailRepository extends TrailsRepository {
   Future<List<Trail>> fetchAll() {
     return Future.value(_trails);
   }
+
+  @override
+  Future<List<Trail>> getByGeoLocation(LatLng latlong) {
+    // TODO: implement getByGeoLocation
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Trail> getById(String id) {
+    // TODO: implement getById
+    throw UnimplementedError();
+  }
 }

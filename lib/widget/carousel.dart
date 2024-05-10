@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ImageCarousel extends StatelessWidget {
   final List<String> imageUrls;
 
-  ImageCarousel({required this.imageUrls});
+  const ImageCarousel({super.key, required this.imageUrls});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class ImageCarousel extends StatelessWidget {
         autoPlay: false, // Ativa a reprodução automática
         aspectRatio: 16 / 9,
         enableInfiniteScroll: true,
-        autoPlayInterval: Duration(seconds: 5),
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayInterval: const Duration(seconds: 5),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
       ),
       items: imageUrls.map((url) {
         return Builder(

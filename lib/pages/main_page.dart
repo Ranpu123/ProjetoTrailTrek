@@ -1,8 +1,11 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/pages/profile_page.dart';
 import 'package:projeto_dev_disp_mob/pages/record_trail_page.dart';
 import 'package:projeto_dev_disp_mob/pages/trailslist_page.dart';
+import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,6 +16,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
+  List<String> names = ["Trails", "", "Profile"];
+  List<IconData> icons = [Icons.terrain, Icons.terrain, Icons.person_2];
   List<Widget> list = const [
     TrailsListPage(),
     Text(''),
@@ -21,16 +26,18 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userController = Provider.of<UserController>(context);
+    userController.login(context.read<AuthService>().usuario!.uid);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         titleSpacing: 0,
-        leading: const Icon(
-          Icons.terrain,
+        leading: Icon(
+          icons[currentIndex],
         ),
         title: Text(
-          'Trails',
+          names[currentIndex],
           style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
         ),
       ),

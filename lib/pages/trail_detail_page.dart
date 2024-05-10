@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
+import 'package:projeto_dev_disp_mob/pages/edit_trail_page.dart';
+import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:projeto_dev_disp_mob/widget/carousel.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
 import 'package:projeto_dev_disp_mob/models/trail_model.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_map/flutter_map.dart';
-
-//AIzaSyDCJx5xOx437xF-7cmfHa9zKcg8nGM_b2Q
+import 'package:provider/provider.dart';
 
 class TrailDetailsPage extends StatefulWidget {
   final Trail trail;
@@ -19,6 +19,7 @@ class TrailDetailsPage extends StatefulWidget {
 }
 
 class _TrailDetailsPageState extends State<TrailDetailsPage> {
+  Trail? trail;
   @override
   void initState() {
     super.initState();
@@ -28,9 +29,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Trail trail = widget.trail;
-    TrailController trailProvider =
-        Provider.of<TrailController>(context, listen: false);
+    trail = widget.trail;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -38,7 +37,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
           Icons.terrain,
           color: Colors.black,
         ),
-        title: Text(trail.name),
+        title: Text(trail!.name),
       ),
       body: ListView(
         children: [
@@ -48,7 +47,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: FlutterMap(
-                  options: MapOptions(initialCenter: trail.averageLatLng()),
+                  options: MapOptions(initialCenter: trail!.averageLatLng()),
                   children: [
                     TileLayer(
                       urlTemplate:
@@ -56,7 +55,8 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                       userAgentPackageName:
                           'br.com.projetoDDM.projeto_dev_disp_mob',
                     ),
-                    MarkerLayer(markers: createMarkersFromPoints(trail.points)),
+                    MarkerLayer(
+                        markers: createMarkersFromPoints(trail!.points)),
                   ],
                 ),
               ),
@@ -72,18 +72,31 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                           size: 28,
                         ),
                         Flexible(
+                          fit: FlexFit.tight,
                           child: Text(
-                            trail.name,
+                            trail!.name,
                             maxLines: 2,
                             style: const TextStyle(
                                 fontSize: 24,
                                 height: 0,
                                 fontWeight: FontWeight.bold),
                           ),
-                        )
+                        ),
+                        (trail!.uid == context.read<AuthService>().usuario!.uid)
+                            ? IconButton(
+                                onPressed: () {
+                                  editTrail(trail!);
+                                },
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Colors.black54,
+                                  size: 20,
+                                ),
+                              )
+                            : const Padding(padding: EdgeInsets.all(0)),
                       ],
                     ),
-                    Divider(),
+                    const Divider(),
                     Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 8),
@@ -106,7 +119,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    trail.username,
+                                    trail!.username,
                                     maxLines: 2,
                                     style: const TextStyle(
                                         fontSize: 16, height: 0),
@@ -137,7 +150,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                                           height: 0),
                                     ),
                                     Text(
-                                      '${trail.distance} Km',
+                                      '${trail!.distance} Km',
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -156,7 +169,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                                           height: 0),
                                     ),
                                     Text(
-                                      '${trail.elevation} m',
+                                      '${trail!.elevation} m',
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -183,7 +196,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                                           height: 0),
                                     ),
                                     Text(
-                                      trail.getHoursAndMinutes(),
+                                      trail!.getHoursAndMinutes(),
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -202,7 +215,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                                           height: 0),
                                     ),
                                     Text(
-                                      '${trail.maxElevation} m',
+                                      '${trail!.maxElevation} m',
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -230,7 +243,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                                     ),
                                     Text(
                                       DateFormat('dd/MM/yyyy')
-                                          .format(trail.createdAt),
+                                          .format(trail!.createdAt),
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -247,21 +260,23 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                   ],
                 ),
               ),
-              Divider(),
-              ImageCarousel(imageUrls: trail.images),
+              const Divider(),
+              ImageCarousel(imageUrls: trail!.images),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 50),
                 child: Column(
                   children: [
                     Text(
-                      trail.description as String,
+                      trail!.description,
                     ),
                   ],
                 ),
               ),
-              Divider(),
+              const Divider(),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 50),
                 child: Row(
                   children: [
                     Column(
@@ -271,7 +286,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                         Row(
                           children: [
                             RatingBarIndicator(
-                              rating: trail.trailRating(),
+                              rating: trail!.trailRating(),
                               itemCount: 5,
                               itemSize: 30.0,
                               itemBuilder: (context, _) => const Icon(
@@ -280,7 +295,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                               ),
                             ),
                             Text(
-                                '(${trail.coments.length}) ${trail.trailRating()}'),
+                                '(${trail!.coments.length}) ${trail!.trailRating()}'),
                           ],
                         ),
                       ],
@@ -294,7 +309,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                   ],
                 ),
               ),
-              Divider(),
+              const Divider(),
             ],
           ),
         ],
@@ -318,5 +333,15 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
       }
     }
     return list;
+  }
+
+  void editTrail(Trail otrail) {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return EditTrailPage(
+          trail: otrail,
+        );
+      },
+    ));
   }
 }

@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:projeto_dev_disp_mob/models/coments_model.dart';
 
 class Trail {
-  final String? id;
+  String? id;
   final String uid;
   final String username;
   final String name;
@@ -45,7 +43,7 @@ class Trail {
       'elevation': elevation,
       'maxElevation': maxElevation,
       'duration': duration,
-      'createdAt': createdAt,
+      'createdAt': createdAt.millisecondsSinceEpoch,
       'points': points
           .map((point) =>
               {'latitude': point.latitude, 'longitude': point.longitude})
@@ -55,7 +53,7 @@ class Trail {
     };
   }
 
-  factory Trail.fromMap(Map<String, dynamic> map) {
+  factory Trail.fromMap(Map<dynamic, dynamic> map) {
     return Trail(
         id: map['id'],
         uid: map['uid'],
@@ -67,15 +65,21 @@ class Trail {
         maxElevation: map['maxElevation'],
         duration: map['duration'],
         createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-        points: (map['points'] as List<dynamic>)
-            .map((point) => LatLng(point['latitude'], point['longitude']))
-            .toList(),
-        coments: (map['coments'] as List<dynamic>)
-            .map((coment) => Coment.fromMap(coment))
-            .toList(),
-        images: (map['images'] as List<dynamic>)
-            .map((image) => image['url'] as String)
-            .toList());
+        points: (map['points'] != null && (map['points'] as List).isNotEmpty)
+            ? (map['points'] as List<dynamic>)
+                .map((point) => LatLng(point['latitude'], point['longitude']))
+                .toList()
+            : [],
+        coments: (map['coments'] != null && (map['coments'] as List).isNotEmpty)
+            ? (map['coments'] as List<dynamic>)
+                .map((coment) => Coment.fromMap(coment))
+                .toList()
+            : [],
+        images: (map['images'] != null && (map['images'] as List).isNotEmpty)
+            ? (map['images'] as List<dynamic>)
+                .map((image) => image['url'] as String)
+                .toList()
+            : []);
   }
 
   String toJson() => json.encode(toMap());

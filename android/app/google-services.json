@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "139811719879",
+    "firebase_url": "https://projdevdispmob-default-rtdb.firebaseio.com",
+    "project_id": "projdevdispmob",
+    "storage_bucket": "projdevdispmob.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139811719879:android:55074a5f1003e0103ccce2",
+        "android_client_info": {
+          "package_name": "br.com.projetoDDM.projeto_dev_disp_mob"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZY8oBm90IiNE4ECMoyAo2R8Z03f0uC7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -69,7 +69,7 @@ class _IWantToGoPage extends State<IWantToGoPage> {
                                 fontSize: 24, color: Colors.black),
                           ),
                           title: Text(_foundTrails[index]['username'],
-                              style: TextStyle(color: Colors.black)),
+                              style: const TextStyle(color: Colors.black)),
                         ),
                       ),
                     )

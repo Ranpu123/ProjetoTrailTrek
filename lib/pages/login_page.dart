@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
-import 'package:projeto_dev_disp_mob/pages/main_page.dart';
+import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,28 +15,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Verifica se o usuário logado já foi inicializado
-      final userController =
-          Provider.of<UserController>(context, listen: false);
+  login(String email, String passwd) async {
+    try {
+      await context.read<AuthService>().login(email, passwd);
 
-      if (userController.loggedUser != null) {
-        // Se o usuário já estiver logado, navegue para a MainPage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+      final authService = context.read<AuthService>();
+      if (authService.usuario != null) {
+        await context.read<UserController>().login(authService.usuario!.uid);
+
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to retrieve user information")),
         );
       }
-    });
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final usersProvider = Provider.of<UserController>(context);
-
     final loginForm = GlobalKey<FormState>();
     final emailcontroller = TextEditingController();
     final passwordcontroller = TextEditingController();
@@ -164,27 +166,8 @@ class LoginPageState extends State<LoginPage> {
                                       onPressed: () {
                                         if (loginForm.currentState!
                                             .validate()) {
-                                          usersProvider
-                                              .login(emailcontroller.text,
-                                                  passwordcontroller.text)
-                                              .then((value) {
-                                            if (value) {
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const MainPage()),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'Invalid email or password. Please try again.'),
-                                                ),
-                                              );
-                                            }
-                                          });
+                                          login(emailcontroller.text,
+                                              passwordcontroller.text);
                                         }
                                       },
                                       style: OutlinedButton.styleFrom(

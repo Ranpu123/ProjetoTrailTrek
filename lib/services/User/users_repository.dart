@@ -5,4 +5,5 @@ abstract class UserRepository {
   Future<bool> create(User user);
   Future<bool> update(User user);
   Future<bool> delete(User user);
+  Future<User?> getById(String id);
 }

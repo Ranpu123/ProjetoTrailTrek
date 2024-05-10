@@ -18,7 +18,7 @@ class UserController extends ChangeNotifier {
     return users;
   }
 
-  Future<bool> registerUser(
+  /*Future<bool> registerUser(
       String username, String password, String email) async {
     final newUser = User(
         username: username,
@@ -30,6 +30,24 @@ class UserController extends ChangeNotifier {
 
     if (success) {
       users = await repository.fetchAll();
+      notifyListeners();
+      return Future.value(true);
+    }
+    return Future.value(false);
+  }*/
+
+  Future<bool> registerUser(
+      String uid, String username, String password, String email) async {
+    final newUser = User(
+        username: username,
+        email: email,
+        password: password,
+        createdAt: DateTime.now(),
+        uid: uid);
+
+    final success = await repository.create(newUser);
+    if (success) {
+      loggedUser = newUser;
       notifyListeners();
       return Future.value(true);
     }
@@ -65,13 +83,15 @@ class UserController extends ChangeNotifier {
     return Future.value(false);
   }
 
-  Future<bool> login(String email, String password) async {
-    for (var user in users) {
-      if (user!.email == email && user.password == password) {
-        loggedUser = user;
-        return Future.value(true);
-      }
+  Future<bool> login(String id) async {
+    User? user = await repository.getById(id);
+
+    if (user != null) {
+      loggedUser = user;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
     }
-    return Future.value(false);
   }
 }
