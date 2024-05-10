@@ -6,6 +6,8 @@ import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
+  //final User user;
+  //const ProfilePage({super.key, required this.user});
   const ProfilePage({super.key});
 
   @override
