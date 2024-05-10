@@ -48,7 +48,6 @@ class RemoteTrailsRepository implements TrailsRepository {
         trails.add(trail);
       }
     } catch (e) {
-      print("ERRO NA BUSCA DE TODOS OS TRAILS $e");
       //TODO: Finish Throw for each db operation
     }
     return trails;

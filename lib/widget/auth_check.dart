@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/pages/front_page.dart';
 import 'package:projeto_dev_disp_mob/pages/main_page.dart';
 import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
+import 'package:projeto_dev_disp_mob/widget/loading.dart';
 import 'package:provider/provider.dart';
 
 class AuthCheck extends StatefulWidget {
@@ -17,19 +18,11 @@ class _AuthCheckState extends State<AuthCheck> {
     AuthService auth = Provider.of<AuthService>(context);
 
     if (auth.isLoading) {
-      return loading();
+      return const LoadingWidget();
     } else if (auth.usuario == null) {
       return const FirstPage();
     } else {
       return const MainPage();
     }
-  }
-
-  loading() {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
   }
 }
