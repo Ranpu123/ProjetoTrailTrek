@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:projeto_dev_disp_mob/pages/comment_page.dart';
-import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
 import 'package:projeto_dev_disp_mob/pages/edit_trail_page.dart';
 import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:projeto_dev_disp_mob/widget/carousel.dart';

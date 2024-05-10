@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
-import 'package:projeto_dev_disp_mob/models/user_model.dart';
 import 'package:projeto_dev_disp_mob/pages/iwanttogo_page.dart';
 import 'package:projeto_dev_disp_mob/pages/mytrails_page.dart';
 import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';

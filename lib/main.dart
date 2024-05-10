@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
-import 'package:projeto_dev_disp_mob/services/Trail/local_trails_repository.dart';
 import 'package:projeto_dev_disp_mob/services/Trail/remote_trails_repository.dart';
 import 'package:projeto_dev_disp_mob/services/User/remote_user_repository.dart';
 import 'package:projeto_dev_disp_mob/widget/auth_check.dart';
