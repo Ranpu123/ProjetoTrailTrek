@@ -14,7 +14,6 @@ class _TrailsListPageState extends State<TrailsListPage> {
   @override
   Widget build(BuildContext context) {
     final trailProvider = Provider.of<TrailController>(context);
-    trailProvider.load();
     if (trailProvider.isLoading) {
       return const Scaffold(
         body: Center(
@@ -159,7 +158,10 @@ class _TrailsListPageState extends State<TrailsListPage> {
                                       image: DecorationImage(
                                         image: NetworkImage(
                                           trailProvider.trails[index].images
-                                              .first, // URL da imagem
+                                                  .isNotEmpty
+                                              ? trailProvider
+                                                  .trails[index].images.first
+                                              : 'https://i.imgur.com/0AlwvzW.png', // URL da imagem
                                         ),
                                         fit: BoxFit
                                             .cover, // Ajusta a imagem para cobrir o container

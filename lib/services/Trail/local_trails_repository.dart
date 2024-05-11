@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:projeto_dev_disp_mob/models/trail_model.dart';
 import 'package:projeto_dev_disp_mob/services/Trail/trails_repository.dart';
@@ -74,7 +76,7 @@ class LocalTrailRepository extends TrailsRepository {
   }
 
   @override
-  Future<bool> create(Trail trail) {
+  Future<bool> create(Trail trail, List<XFile> images) async {
     _trails.add(trail);
     return Future.value(true);
   }
@@ -116,4 +118,16 @@ class LocalTrailRepository extends TrailsRepository {
     // TODO: implement getById
     throw UnimplementedError();
   }
+
+  @override
+  // TODO: implement onTrailAdded
+  Stream<DatabaseEvent> get onTrailAdded => throw UnimplementedError();
+
+  @override
+  // TODO: implement onTrailChanged
+  Stream<DatabaseEvent> get onTrailChanged => throw UnimplementedError();
+
+  @override
+  // TODO: implement onTrailRemoved
+  Stream<DatabaseEvent> get onTrailRemoved => throw UnimplementedError();
 }

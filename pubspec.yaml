@@ -43,12 +43,13 @@ dependencies:
   carousel_slider: ^4.2.1
   flutter_rating_bar: ^4.0.1
   comment_box: ^0.0.18
-  image_picker: ^1.0.8
+  image_picker: ^1.1.1
   firebase_core: ^2.31.0
   firebase_database: ^10.5.5
   firebase_auth: ^4.19.5
   flutter_geofire: ^2.0.3
   location: ^6.0.2
+  firebase_storage: ^11.7.5
 
 dev_dependencies:
   flutter_test:

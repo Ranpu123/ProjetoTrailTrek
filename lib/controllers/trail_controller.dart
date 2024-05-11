@@ -1,22 +1,33 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:projeto_dev_disp_mob/models/coments_model.dart';
 import 'package:projeto_dev_disp_mob/models/trail_model.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:projeto_dev_disp_mob/services/Trail/trails_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TrailController extends ChangeNotifier {
   final TrailsRepository repository;
   List<Trail> trails = [];
   bool isLoading = true;
+  int loadCalls = 0;
+
+  late StreamSubscription<DatabaseEvent> onchange;
+  late StreamSubscription<DatabaseEvent> onadd;
+  late StreamSubscription<DatabaseEvent> ondelete;
 
   TrailController(this.repository) {
     isLoading = true;
-    load();
-    isLoading = false;
+    setupListeners();
+    load().then((value) => isLoading = false);
   }
 
   Future<List<Trail>> load() async {
     trails = await repository.fetchAll();
+    loadCalls++;
+    print("Load Calls: $loadCalls");
     notifyListeners();
     return trails;
   }
@@ -30,7 +41,8 @@ class TrailController extends ChangeNotifier {
       double elevation,
       double maxElevation,
       double duration,
-      List<LatLng> points) async {
+      List<LatLng> points,
+      List<XFile> images) async {
     final newtrail = Trail(
         id: UniqueKey().toString(),
         uid: uid,
@@ -44,9 +56,9 @@ class TrailController extends ChangeNotifier {
         createdAt: DateTime.now(),
         points: points,
         coments: [],
-        images: ['https://i.imgur.com/0AlwvzW.png']);
+        images: []);
 
-    final success = await repository.create(newtrail);
+    final success = await repository.create(newtrail, images);
 
     if (success) {
       load();
@@ -98,5 +110,36 @@ class TrailController extends ChangeNotifier {
       return Future.value(true);
     }
     return Future.value(false);
+  }
+
+  Future<bool> deleteTrail(String id) async {
+    Trail? trail = await repository.getById(id);
+    if (trail != null) {
+      final success = await repository.delete(trail);
+      if (success) {
+        load();
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      print("Error 404, iten not found!");
+      return false;
+    }
+  }
+
+  void setupListeners() {
+    onadd = repository.onTrailAdded.listen((event) {
+      load();
+    });
+
+    onchange = repository.onTrailChanged.listen((event) {
+      load();
+    });
+
+    ondelete = repository.onTrailRemoved.listen((event) {
+      load();
+    });
   }
 }
