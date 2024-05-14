@@ -6,6 +6,7 @@ class User {
   final String email;
   final String password;
   final DateTime createdAt;
+  String? profileImage;
 
   User({
     this.uid,
@@ -13,6 +14,7 @@ class User {
     required this.email,
     required this.password,
     required this.createdAt,
+    this.profileImage,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,17 +24,19 @@ class User {
       'email': email,
       'password': '*',
       'createdAt': createdAt.microsecondsSinceEpoch,
+      'profileImage': profileImage != null ? {'url': profileImage} : null,
     };
   }
 
   factory User.fromMap(Map<dynamic, dynamic> map) {
     return User(
-      uid: map['uid'],
-      username: map['username'],
-      email: map['email'],
-      password: map['password'],
-      createdAt: DateTime.fromMicrosecondsSinceEpoch(map['createdAt']),
-    );
+        uid: map['uid'],
+        username: map['username'],
+        email: map['email'],
+        password: map['password'],
+        createdAt: DateTime.fromMicrosecondsSinceEpoch(map['createdAt']),
+        profileImage:
+            map['profileImage'] != null ? map['profileImage']['url'] : null);
   }
 
   String toJson() => json.encode(toMap());

@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart' as um;
 import 'package:projeto_dev_disp_mob/services/User/users_repository.dart';
 
@@ -72,4 +76,32 @@ class RemoteUserRepository implements UserRepository {
     }
     return null;
   }
+
+  Future<String> uploadImage(XFile image, String id) async {
+    String fileName = '${DateTime.now().millisecondsSinceEpoch}_${image.name}';
+    Reference db = FirebaseStorage.instance.ref("usersImages/$id/$fileName");
+    try {
+      final metadata = SettableMetadata(contentType: 'image/png');
+      Uint8List imageData = await image.readAsBytes();
+      await db.putData(imageData, metadata);
+      return await db.getDownloadURL();
+    } on Exception catch (e) {
+      print('Erro Uploading Image $e');
+      return '';
+    }
+  }
+  /*Future<String> uploadImage(XFile image, String id) async {
+    String fileName = '${DateTime.now().millisecondsSinceEpoch}_${image.name}';
+    Reference db = FirebaseStorage.instance.ref("usersImages/$id/$fileName");
+    try {
+      final metadata = SettableMetadata(contentType: 'image/png');
+      Uint8List imageData = await image.readAsBytes();
+      await db.putData(imageData, metadata);
+      return await db.getDownloadURL();
+    } on Exception catch (e) {
+      print('Erro Uploading Image $e');
+      return '';
+    }
+  }
+  */
 }

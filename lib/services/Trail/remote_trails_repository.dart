@@ -1,8 +1,10 @@
+import 'dart:html';
 import 'dart:typed_data';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:projeto_dev_disp_mob/models/coments_model.dart';
 import 'package:projeto_dev_disp_mob/models/trail_model.dart';
 import 'package:projeto_dev_disp_mob/services/Trail/trails_repository.dart';
 
@@ -122,6 +124,11 @@ class RemoteTrailsRepository implements TrailsRepository {
       print("LOL ERROR DELETING IMAGES! $e");
       return false;
     }
+  }
+
+  @override
+  Future<void> addComment(Trail trail, Coment comment) async {
+    await _trailRef.child('${trail.id}/coments').push().set(comment.toMap());
   }
 
   @override

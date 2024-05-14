@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:projeto_dev_disp_mob/pages/iwanttogo_page.dart';
 import 'package:projeto_dev_disp_mob/pages/mytrails_page.dart';
@@ -6,8 +7,6 @@ import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  //final User user;
-  //const ProfilePage({super.key, required this.user});
   const ProfilePage({super.key});
 
   @override
@@ -15,9 +14,34 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  XFile? _image;
+  final picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final userController = Provider.of<UserController>(context);
+    final userProvider = Provider.of<UserController>(context);
+
+    Future<void> pickImage() async {
+      XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        bool updateSuccess = await userProvider.uploadProfileImage(
+            pickedImage, userProvider.loggedUser!);
+        if (updateSuccess) {
+          setState(() {
+            _image = pickedImage;
+          });
+        } else {
+          print('Erro ao atualizar a imagem do perfil');
+        }
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
@@ -56,43 +80,45 @@ class ProfilePageState extends State<ProfilePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundColor:
-                            const Color.fromARGB(255, 230, 230, 230),
-                        radius: 50,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              const AssetImage('images/avatar.png'),
-                          radius: 48,
-                          backgroundColor: Colors.white,
-                          child: Stack(
-                            children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(top: 45, left: 80),
-                                child: const Center(
-                                  child: Icon(
-                                    color: Colors.black,
-                                    Icons.photo,
-                                    size: 30,
-                                  ),
-                                ),
-                              ),
-                            ],
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor:
+                                const Color.fromARGB(255, 230, 230, 230),
+                            radius: 50,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  userProvider.loggedUser!.profileImage ??
+                                      'assets/images/avatar.png'),
+                              radius: 48,
+                              backgroundColor: Colors.white,
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            top: 40,
+                            left: 70,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.photo,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                              onPressed: pickImage,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                           height: 8), // Espaço entre o avatar e o texto
                       Text(
-                        userController.loggedUser!.username,
+                        userProvider.loggedUser!.username,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

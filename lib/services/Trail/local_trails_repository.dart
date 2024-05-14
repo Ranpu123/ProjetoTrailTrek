@@ -1,7 +1,10 @@
+import 'dart:html';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:projeto_dev_disp_mob/models/coments_model.dart';
 import 'package:projeto_dev_disp_mob/models/trail_model.dart';
 import 'package:projeto_dev_disp_mob/services/Trail/trails_repository.dart';
 
@@ -116,6 +119,11 @@ class LocalTrailRepository extends TrailsRepository {
   @override
   Future<Trail> getById(String id) {
     // TODO: implement getById
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addComment(Trail trail, Coment comment) {
     throw UnimplementedError();
   }
 

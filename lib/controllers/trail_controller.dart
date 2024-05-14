@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -129,6 +130,44 @@ class TrailController extends ChangeNotifier {
     }
   }
 
+  Future<bool> addComment(Trail trail, Coment comment) async {
+    try {
+      await repository.addComment(trail, comment);
+      load();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+/*
+  Future<bool> addComment(Trail trail, Coment comment) async {
+    trail.coments.add(comment);
+    //await repository.addComment(trail, comment);
+    final success = await repository.update(trail);
+    if (success) {
+      load();
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+*/
+/*
+Future<bool> addComment(String trailId, Coment comment) async {
+  try {
+    Trail? trail = await getTrail(trailId);
+    if (trail != null) {
+      trail.coments.add(comment);
+      return await updateTrail(trail);
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+*/
   void setupListeners() {
     onadd = repository.onTrailAdded.listen((event) {
       load();

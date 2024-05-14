@@ -327,7 +327,8 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CommentPage()),
+                                builder: (context) =>
+                                    CommentPage(trail: trail!)),
                           );
                         },
                         icon: const Icon(

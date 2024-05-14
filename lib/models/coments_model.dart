@@ -38,7 +38,6 @@ class Coment {
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
     );
   }
-
   String toJson() => json.encode(toMap());
 
   factory Coment.fromJson(String source) => Coment.fromMap(json.decode(source));

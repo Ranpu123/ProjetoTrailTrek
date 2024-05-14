@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
 import 'package:projeto_dev_disp_mob/services/User/users_repository.dart';
 
@@ -53,6 +54,10 @@ class LocalUserRepository extends UserRepository {
   @override
   Future<User?> getById(String id) {
     // TODO: implement getById
+    throw UnimplementedError();
+  }
+
+  Future<String> uploadImage(XFile image, String id) async {
     throw UnimplementedError();
   }
 }

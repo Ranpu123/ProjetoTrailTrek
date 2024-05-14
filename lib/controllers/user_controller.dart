@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projeto_dev_disp_mob/models/user_model.dart';
 import 'package:projeto_dev_disp_mob/services/User/users_repository.dart';
 
@@ -43,7 +44,8 @@ class UserController extends ChangeNotifier {
         email: email,
         password: password,
         createdAt: DateTime.now(),
-        uid: uid);
+        uid: uid,
+        profileImage: "");
 
     final success = await repository.create(newUser);
     if (success) {
@@ -91,6 +93,37 @@ class UserController extends ChangeNotifier {
       notifyListeners();
       return true;
     } else {
+      return false;
+    }
+  }
+
+/*
+  Future<bool> updateProfileImage(String downloadURL) async {
+    if (loggedUser != null) {
+      loggedUser!.profileImage = downloadURL;
+      final success = await repository.update(loggedUser!);
+
+      if (success) {
+        notifyListeners();
+        return Future.value(true);
+      }
+    }
+    return Future.value(false);
+  }
+*/
+  Future<bool> uploadProfileImage(XFile pickedImage, User user) async {
+    String downloadURL = await repository.uploadImage(pickedImage, user.uid!);
+
+    if (downloadURL.isNotEmpty) {
+      user.profileImage = downloadURL;
+      bool updateSuccess = await repository.update(user);
+      if (updateSuccess) {
+        loggedUser = user;
+        notifyListeners();
+      }
+      return updateSuccess;
+    } else {
+      print('Erro ao fazer upload da imagem');
       return false;
     }
   }

@@ -50,6 +50,7 @@ dependencies:
   flutter_geofire: ^2.0.3
   location: ^6.0.2
   firebase_storage: ^11.7.5
+  firebase_storage_web: ^3.9.5
 
 dev_dependencies:
   flutter_test:

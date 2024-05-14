@@ -1,9 +1,18 @@
 import 'package:comment_box/comment/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
+import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
+import 'package:projeto_dev_disp_mob/models/coments_model.dart';
+import 'package:projeto_dev_disp_mob/models/trail_model.dart';
+import 'package:projeto_dev_disp_mob/models/user_model.dart';
+import 'package:provider/provider.dart';
 
-//example base of pub.dev
 class CommentPage extends StatefulWidget {
+  final Trail trail;
+  const CommentPage({super.key, required this.trail});
+
   @override
   _CommentPage createState() => _CommentPage();
 }
@@ -11,64 +20,12 @@ class CommentPage extends StatefulWidget {
 class _CommentPage extends State<CommentPage> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController commentController = TextEditingController();
-  List filedata = [
-    {
-      'name': 'teste da silva',
-      'pic': 'images/avatar.png',
-      'message': 'I love this trail!',
-      'date': '2021-01-01 12:00:00'
-    },
-    {
-      'name': 'teste pereira',
-      'pic': 'images/avatar.png',
-      'message': 'Very cool',
-      'date': '2021-01-01 12:00:00'
-    },
-  ];
-
-  Widget commentChild(data) {
-    return ListView(
-      children: [
-        for (var i = 0; i < data.length; i++)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(2.0, 5.0, 2.0, 0.0),
-            child: ListTile(
-              leading: GestureDetector(
-                onTap: () async {
-                  // Display the image in large form.
-                  print("Comment Clicked");
-                },
-                child: Container(
-                  height: 50.0,
-                  width: 50.0,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                  ),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: CommentBox.commentImageParser(
-                        imageURLorPath: data[i]['pic']),
-                  ),
-                ),
-              ),
-              title: Text(
-                data[i]['name'],
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(data[i]['message']),
-              trailing: Text(
-                data[i]['date'],
-                style: const TextStyle(fontSize: 10),
-              ),
-            ),
-          )
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
+    final userController = Provider.of<UserController>(context);
+    final trailController = Provider.of<TrailController>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -77,31 +34,32 @@ class _CommentPage extends State<CommentPage> {
         leading: const Icon(
           Icons.terrain,
         ),
-        title: Text(
-          'Trails',
-          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-        ),
+        title: Text('Trails'),
       ),
       body: CommentBox(
-        userImage:
-            CommentBox.commentImageParser(imageURLorPath: 'images/avatar.png'),
+        userImage: CommentBox.commentImageParser(
+            imageURLorPath: userController.loggedUser!.profileImage ??
+                'assets/images/avatar.png'),
         labelText: 'Write a comment...',
         errorText: 'Comment cannot be blank',
         withBorder: false,
-        sendButtonMethod: () {
+        sendButtonMethod: () async {
           if (formKey.currentState!.validate()) {
-            print(commentController.text);
-            setState(() {
-              var value = {
-                'name': 'Username',
-                'pic': 'images/avatar.png',
-                'message': commentController.text,
-                'date': '2021-01-01 12:00:00'
-              };
-              filedata.insert(0, value);
-            });
-            commentController.clear();
-            FocusScope.of(context).unfocus();
+            // User user = await userController.getCurrentUser();
+            Coment comment = Coment(
+              uid: userController.loggedUser!.uid as String,
+              username: userController.loggedUser!.username,
+              description: commentController.text,
+              rating: 5.0,
+              createdAt: DateTime.now(),
+            );
+            bool success =
+                await trailController.addComment(widget.trail, comment);
+            if (success) {
+              commentController.clear();
+              FocusScope.of(context).unfocus();
+              setState(() {});
+            }
           } else {
             print("Not validated");
           }
@@ -122,7 +80,60 @@ class _CommentPage extends State<CommentPage> {
             ),
           ],
         ),
-        child: commentChild(filedata),
+        child: FutureBuilder<Trail?>(
+          future: trailController.getTrail(widget.trail.id as String),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError || snapshot.data == null) {
+              return Text('Erro ao carregar comentários');
+            } else {
+              return ListView(
+                children: snapshot.data!.coments
+                    .map((comment) => Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(2.0, 5.0, 2.0, 0.0),
+                          child: ListTile(
+                            leading: GestureDetector(
+                              onTap: () async {
+                                print("Comment Clicked");
+                              },
+                              child: Container(
+                                height: 50.0,
+                                width: 50.0,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50)),
+                                ),
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage:
+                                      CommentBox.commentImageParser(
+                                          imageURLorPath: userController
+                                                  .loggedUser!.profileImage ??
+                                              'assets/images/avatar.png'),
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              comment.username,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(comment.description ?? ''),
+                            trailing: Text(
+                              DateFormat('yyyy-MM-dd HH:mm')
+                                  .format(comment.createdAt),
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              );
+            }
+          },
+        ),
       ),
     );
   }
