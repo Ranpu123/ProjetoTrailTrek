@@ -121,7 +121,7 @@ class _EditTrailPageState extends State<EditTrailPage> {
                   return null;
                 },
               ),
-              Divider(),
+              const Divider(),
               Expanded(
                 child: ListView.builder(
                   itemCount: images.length,
@@ -137,7 +137,6 @@ class _EditTrailPageState extends State<EditTrailPage> {
                         icon: const Icon(Icons.close),
                         onPressed: () {
                           removedImages.add(images.removeAt(index));
-                          //TODO: Finalizar Atualização de Imagens no uptade;
                         },
                       ),
                     );
@@ -204,20 +203,21 @@ class _EditTrailPageState extends State<EditTrailPage> {
               if (_formKey.currentState!.validate()) {
                 trailProvider
                     .updateTrail(
-                  widget.trail.id!,
-                  userProvider.loggedUser!.uid!,
-                  userProvider.loggedUser!.username,
-                  _nameController.text,
-                  _descriptionController.text,
-                  widget.trail.distance,
-                  widget.trail.elevation,
-                  widget.trail.maxElevation,
-                  widget.trail.duration,
-                  widget.trail.createdAt,
-                  widget.trail.points,
-                  widget.trail.coments,
-                  widget.trail.images,
-                )
+                        widget.trail.id!,
+                        userProvider.loggedUser!.uid!,
+                        userProvider.loggedUser!.username,
+                        _nameController.text,
+                        _descriptionController.text,
+                        widget.trail.distance,
+                        widget.trail.elevation,
+                        widget.trail.maxElevation,
+                        widget.trail.duration,
+                        widget.trail.createdAt,
+                        widget.trail.points,
+                        widget.trail.coments,
+                        images,
+                        removedImages,
+                        _images)
                     .then((value) {
                   if (value == false) {
                     ScaffoldMessenger.of(context).showSnackBar(

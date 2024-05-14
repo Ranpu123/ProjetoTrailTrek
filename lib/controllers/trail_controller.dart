@@ -87,7 +87,9 @@ class TrailController extends ChangeNotifier {
       DateTime createdAt,
       List<LatLng> points,
       List<Coment> coments,
-      List<String> images) async {
+      List<String> images,
+      List<String> imgtoRemove,
+      List<XFile> ximages) async {
     final newtrail = Trail(
         id: id,
         uid: uid,
@@ -103,7 +105,7 @@ class TrailController extends ChangeNotifier {
         coments: coments,
         images: images);
 
-    final success = await repository.update(newtrail);
+    final success = await repository.update(newtrail, imgtoRemove, ximages);
 
     if (success) {
       load();

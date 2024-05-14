@@ -90,8 +90,21 @@ class RemoteTrailsRepository implements TrailsRepository {
   }
 
   @override
-  Future<bool> update(Trail trail) async {
+  Future<bool> update(
+      Trail trail, List<String> toRemove, List<XFile> images) async {
     try {
+      final success = await deleteImages(toRemove);
+      if (!success) {
+        return false;
+      }
+
+      List<String> imagesUrls = [];
+      for (XFile image in images) {
+        imagesUrls.add(await uploadImage(image, trail.id!));
+      }
+
+      trail.images.addAll(imagesUrls);
+
       await _trailRef.child(trail.id!).update(trail.toMap());
       return true;
     } catch (e) {

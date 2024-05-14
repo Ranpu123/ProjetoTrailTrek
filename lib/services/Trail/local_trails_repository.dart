@@ -95,7 +95,7 @@ class LocalTrailRepository extends TrailsRepository {
   }
 
   @override
-  Future<bool> update(Trail trail) {
+  Future<bool> update(Trail trail, List<String> toRemove, List<XFile> images) {
     final int index = _trails.indexWhere((t) => t.id == trail.id);
     if (index >= 0) {
       _trails.removeAt(index);
