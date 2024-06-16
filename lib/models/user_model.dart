@@ -23,7 +23,7 @@ class User {
       'username': username,
       'email': email,
       'password': '*',
-      'createdAt': createdAt.microsecondsSinceEpoch,
+      'createdAt': createdAt.millisecondsSinceEpoch,
       'profileImage': profileImage != null ? {'url': profileImage} : null,
     };
   }
@@ -34,7 +34,7 @@ class User {
         username: map['username'],
         email: map['email'],
         password: map['password'],
-        createdAt: DateTime.fromMicrosecondsSinceEpoch(map['createdAt']),
+        createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
         profileImage:
             map['profileImage'] != null ? map['profileImage']['url'] : null);
   }
