@@ -13,7 +13,7 @@ abstract class TrailsRepository {
   Future<bool> delete(Trail trail);
   Future<Trail?> getById(String id);
   Future<List<Trail>> getByGeoLocation(LatLng latlong);
-  Future<void> addComment(Trail trail, Coment comment);
+  Future<void> addComent(Trail trail, Coment comment);
   Stream<DatabaseEvent> get onTrailAdded;
   Stream<DatabaseEvent> get onTrailChanged;
   Stream<DatabaseEvent> get onTrailRemoved;

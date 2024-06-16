@@ -38,6 +38,28 @@ class Coment {
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
     );
   }
+//
+  Coment.withId({
+    required this.id,
+    required this.uid,
+    required this.username,
+    this.description,
+    required this.rating,
+    required this.createdAt,
+  });
+
+  Coment copyWithId(String id) {
+    return Coment.withId(
+      id: id,
+      uid: uid,
+      username: username,
+      description: description,
+      rating: rating,
+      createdAt: createdAt,
+    );
+  }
+
+  //
   String toJson() => json.encode(toMap());
 
   factory Coment.fromJson(String source) => Coment.fromMap(json.decode(source));

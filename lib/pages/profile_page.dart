@@ -87,9 +87,9 @@ class ProfilePageState extends State<ProfilePage> {
                                 const Color.fromARGB(255, 230, 230, 230),
                             radius: 50,
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  userProvider.loggedUser!.profileImage ??
-                                      'assets/images/avatar.png'),
+                              backgroundImage: NetworkImage(userProvider
+                                      .loggedUser!.profileImage ??
+                                  'https://firebasestorage.googleapis.com/v0/b/projdevdispmob.appspot.com/o/trailImages%2F-Nxbnip7_ku8yIOw-LmZ%2F1715433563259_morro-do-gaviao.jpg?alt=media&token=e02938e5-df7d-4a17-80e0-24960353dcd2'),
                               radius: 48,
                               backgroundColor: Colors.white,
                             ),

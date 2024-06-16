@@ -123,7 +123,7 @@ class LocalTrailRepository extends TrailsRepository {
   }
 
   @override
-  Future<void> addComment(Trail trail, Coment comment) {
+  Future<void> addComent(Trail trail, Coment comment) {
     throw UnimplementedError();
   }
 

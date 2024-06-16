@@ -127,8 +127,59 @@ class RemoteTrailsRepository implements TrailsRepository {
   }
 
   @override
+  /*Future<void> addComment(Trail trail, Coment comment) async {
+    try {
+      await _trailRef.child('${trail.id}/coments').push().set(comment.toMap());
+    } catch (e) {
+      print('Ocorreu um erro ao adicionar o comentário: $e');
+    }
+  }*/ /*
   Future<void> addComment(Trail trail, Coment comment) async {
-    await _trailRef.child('${trail.id}/coments').push().set(comment.toMap());
+    String? commentId = _trailRef.child('${trail.id}/coments').push().key;
+    if (commentId == null) {
+      throw Exception("Falha ao gerar comment ID");
+    } else {
+      Coment commentWithId = comment.copyWithId(commentId);
+      await _trailRef
+          .child('${trail.id}/coments/$commentId')
+          .set(commentWithId.toMap());
+    }
+  }*/ /*
+  Future<void> addComment(Trail trail, Coment comment) async {
+    try {
+      String? commentId = _trailRef.child('${trail.id}/coments').push().key;
+      if (commentId == null) {
+        throw Exception("Falha ao gerar comment ID");
+      }
+      Coment commentWithId = comment.copyWithId(commentId);
+      await _trailRef
+          .child('${trail.id}/coments/$commentId')
+          .set(commentWithId.toMap());
+    } catch (e) {
+      print('Ocorreu um erro ao adicionar o comentário: $e');
+    }
+  }*/
+
+  Future<bool> addComent(Trail trail, Coment coment) async {
+    try {
+      DatabaseReference newRef =
+          _trailRef.child(trail.id!).child('coments').push();
+      if (newRef.key == null) {
+        return false;
+      }
+      String comentId = newRef.key!;
+      Coment comentWithId = coment.copyWithId(comentId);
+
+      await _trailRef
+          .child(trail.id!)
+          .child('coments')
+          .child(comentId)
+          .set(comentWithId.toMap());
+      return true;
+    } catch (e) {
+      print('Erro ao adicionar comentário no Firebase: $e');
+      return false;
+    }
   }
 
   @override

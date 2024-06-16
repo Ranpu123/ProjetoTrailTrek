@@ -97,20 +97,6 @@ class UserController extends ChangeNotifier {
     }
   }
 
-/*
-  Future<bool> updateProfileImage(String downloadURL) async {
-    if (loggedUser != null) {
-      loggedUser!.profileImage = downloadURL;
-      final success = await repository.update(loggedUser!);
-
-      if (success) {
-        notifyListeners();
-        return Future.value(true);
-      }
-    }
-    return Future.value(false);
-  }
-*/
   Future<bool> uploadProfileImage(XFile pickedImage, User user) async {
     String downloadURL = await repository.uploadImage(pickedImage, user.uid!);
 

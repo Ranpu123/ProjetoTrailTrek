@@ -130,6 +130,7 @@ class TrailController extends ChangeNotifier {
     }
   }
 
+/*
   Future<bool> addComment(Trail trail, Coment comment) async {
     try {
       await repository.addComment(trail, comment);
@@ -138,36 +139,34 @@ class TrailController extends ChangeNotifier {
     } catch (e) {
       return false;
     }
-  }
-
-/*
+  }*/ /*
   Future<bool> addComment(Trail trail, Coment comment) async {
-    trail.coments.add(comment);
-    //await repository.addComment(trail, comment);
-    final success = await repository.update(trail);
-    if (success) {
+    try {
+      await repository.addComment(trail, comment);
+      Trail? updatedTrail = await repository.getById(trail.id!);
+      if (updatedTrail != null) {
+        trail = updatedTrail;
+      }
       load();
-      notifyListeners();
       return true;
-    } else {
+    } catch (e) {
       return false;
     }
-  }
-*/
-/*
-Future<bool> addComment(String trailId, Coment comment) async {
-  try {
-    Trail? trail = await getTrail(trailId);
-    if (trail != null) {
-      trail.coments.add(comment);
-      return await updateTrail(trail);
+  }*/
+  Future<bool> addComment(Trail trail, Coment coment) async {
+    try {
+      //trail.coments.add(coment);
+      await repository.addComent(trail, coment);
+
+      load();
+      notifyListeners();
+      return Future.value(true);
+    } catch (e) {
+      print('Erro ao adicionar comentário: $e');
+      return Future.value(false);
     }
-    return false;
-  } catch (e) {
-    return false;
   }
-}
-*/
+
   void setupListeners() {
     onadd = repository.onTrailAdded.listen((event) {
       load();

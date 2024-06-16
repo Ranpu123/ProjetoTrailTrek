@@ -39,15 +39,15 @@ class _CommentPage extends State<CommentPage> {
       body: CommentBox(
         userImage: CommentBox.commentImageParser(
             imageURLorPath: userController.loggedUser!.profileImage ??
-                'assets/images/avatar.png'),
+                'https://firebasestorage.googleapis.com/v0/b/projdevdispmob.appspot.com/o/imagem_2024-05-28_142532369.png?alt=media&token=b0da3897-86c1-4f73-9056-25c25ea0ba09'),
         labelText: 'Write a comment...',
         errorText: 'Comment cannot be blank',
         withBorder: false,
         sendButtonMethod: () async {
           if (formKey.currentState!.validate()) {
-            // User user = await userController.getCurrentUser();
+            //User user = await userController.getCurrentUser();
             Coment comment = Coment(
-              uid: userController.loggedUser!.uid as String,
+              uid: userController.loggedUser!.uid!, //as String
               username: userController.loggedUser!.username,
               description: commentController.text,
               rating: 5.0,
@@ -59,6 +59,8 @@ class _CommentPage extends State<CommentPage> {
               commentController.clear();
               FocusScope.of(context).unfocus();
               setState(() {});
+            } else {
+              print('Erro ao adicionar comentário.');
             }
           } else {
             print("Not validated");
@@ -81,7 +83,7 @@ class _CommentPage extends State<CommentPage> {
           ],
         ),
         child: FutureBuilder<Trail?>(
-          future: trailController.getTrail(widget.trail.id as String),
+          future: trailController.getTrail(widget.trail.id!), //as String
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -108,11 +110,10 @@ class _CommentPage extends State<CommentPage> {
                                 ),
                                 child: CircleAvatar(
                                   radius: 50,
-                                  backgroundImage:
-                                      CommentBox.commentImageParser(
-                                          imageURLorPath: userController
-                                                  .loggedUser!.profileImage ??
-                                              'assets/images/avatar.png'),
+                                  backgroundImage: CommentBox.commentImageParser(
+                                      imageURLorPath: userController
+                                              .loggedUser!.profileImage ??
+                                          'https://firebasestorage.googleapis.com/v0/b/projdevdispmob.appspot.com/o/imagem_2024-05-28_142532369.png?alt=media&token=b0da3897-86c1-4f73-9056-25c25ea0ba09'),
                                 ),
                               ),
                             ),
