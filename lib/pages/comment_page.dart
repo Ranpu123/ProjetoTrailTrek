@@ -26,6 +26,8 @@ class _CommentPage extends State<CommentPage> {
     final userController = Provider.of<UserController>(context);
     final trailController = Provider.of<TrailController>(context);
 
+    Future<Trail?> loadTrail =
+        context.read<TrailController>().getTrail(widget.trail.id as String);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -81,7 +83,7 @@ class _CommentPage extends State<CommentPage> {
           ],
         ),
         child: FutureBuilder<Trail?>(
-          future: trailController.getTrail(widget.trail.id as String),
+          future: loadTrail,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
