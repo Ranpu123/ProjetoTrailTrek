@@ -7,7 +7,7 @@ import 'package:projeto_dev_disp_mob/pages/trailslist_page.dart';
 import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
 
-import 'save_location.dart';
+import 'save_location_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

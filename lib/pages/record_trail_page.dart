@@ -153,30 +153,27 @@ class _RecordTrailPageState extends State<RecordTrailPage> {
           child: ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
+                var distance = widget.totalDistance; // Distância total
+                var elevation = widget.maxElevation; // Elevação máxima
+                var durationInMinutes =
+                    widget.duration.inMinutes.toDouble(); // Duração em minutos
+
+                // Convertendo para um lista
+                var latLngList = widget.recordedPoints.map((point) {
+                  return LatLng(point.latitude!, point.longitude!);
+                }).toList();
+
                 trailProvider
                     .createTrail(
                   userProvider.loggedUser!.uid!,
                   userProvider.loggedUser!.username,
                   _nameController.text,
                   _descriptionController.text,
-                  7.19,
-                  308,
-                  500,
-                  78,
-                  const [
-                    LatLng(-25.02095165946743, -50.060495950131404),
-                    LatLng(-25.020004932573844, -50.06153520675037),
-                    LatLng(-25.01989070603476, -50.0626116730901),
-                    LatLng(-25.016612033444382, -50.064359654031634),
-                    LatLng(-25.015100274658174, -50.061776307357114),
-                    LatLng(-25.015430836906418, -50.06051030475191),
-                    LatLng(-25.014137750102453, -50.060810712149745),
-                    LatLng(-25.00853127629199, -50.06106123111519),
-                    LatLng(-25.013747450868873, -50.05436702588947),
-                    LatLng(-25.017688050213025, -50.04301755157397),
-                    LatLng(-25.014663120094298, -50.04050948002432),
-                    LatLng(-25.01569323979217, -50.04327016288908),
-                  ],
+                  distance,
+                  elevation,
+                  elevation,
+                  durationInMinutes,
+                  latLngList,
                   _images,
                 )
                     .then((value) {
