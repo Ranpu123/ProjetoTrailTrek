@@ -29,13 +29,14 @@ class Coment {
   }
 
   factory Coment.fromMap(Map<dynamic, dynamic> map) {
+    int createdAtMillis = map['createdAt'] is int ? map['createdAt'] : 0;
     return Coment(
       id: map['id'],
       uid: map['uid'],
       username: map['username'],
       description: map['description'] ?? '',
       rating: map['rating'],
-      createdAt: map['createdAt'] ?? 0,
+      createdAt: DateTime.fromMillisecondsSinceEpoch(createdAtMillis),
     );
   }
 

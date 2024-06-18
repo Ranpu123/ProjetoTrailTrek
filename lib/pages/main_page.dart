@@ -7,6 +7,8 @@ import 'package:projeto_dev_disp_mob/pages/trailslist_page.dart';
 import 'package:projeto_dev_disp_mob/services/Auth/auth_service.dart';
 import 'package:provider/provider.dart';
 
+import 'save_location.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -48,7 +50,7 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const RecordTrailPage()),
+            MaterialPageRoute(builder: (context) => const SaveLocationPage()),
           );
         },
         child: const Icon(

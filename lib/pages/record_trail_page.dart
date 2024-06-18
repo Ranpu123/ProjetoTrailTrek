@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 import 'package:projeto_dev_disp_mob/controllers/trail_controller.dart';
 import 'package:projeto_dev_disp_mob/controllers/user_controller.dart';
 import 'package:provider/provider.dart';
 
 class RecordTrailPage extends StatefulWidget {
-  const RecordTrailPage({super.key});
+  final List<LocationData> recordedPoints;
+  final double totalDistance;
+  final double maxElevation;
+  final Duration duration;
+
+  const RecordTrailPage({
+    Key? key,
+    required this.recordedPoints,
+    required this.totalDistance,
+    required this.maxElevation,
+    required this.duration,
+  }) : super(key: key);
 
   @override
   State<RecordTrailPage> createState() => _RecordTrailPageState();

@@ -49,38 +49,16 @@ class Trail {
               {'latitude': point.latitude, 'longitude': point.longitude})
           .toList(),
       'coments': coments.map((coment) => {coment.id: coment.toMap()}).toList(),
-<<<<<<< HEAD
-      /*'coments': Map.fromIterable(coments,
-          key: (comment) => comment.id,
-          value: (comment) => (comment as Coment).toMap()),*/
-=======
->>>>>>> ad8fe7006d19ecc5cad6e96b016af53165475783
       'images': images.map((image) => {'url': image}),
     };
   }
 
   factory Trail.fromMap(Map<dynamic, dynamic> map) {
-<<<<<<< HEAD
-    final List<Coment> comments = [];
-    /*if (map['coments'] != null) {
-      final comentsMap = map['coments'] as Map<dynamic, dynamic>;
-      comentsMap.forEach((key, value) {
-        comments.add(Coment.fromMap(value as Map<dynamic, dynamic>));
-      });
-    }*/
-    if (map['coments'] != null && map['coments'] is Map) {
-      final comentsMap = map['coments'] as Map<dynamic, dynamic>;
-      comentsMap.forEach((key, value) {
-        if (value is Map) {
-          comments.add(Coment.fromMap(value));
-        }
-=======
     List<Coment> coments = [];
     if (map['coments'] != null &&
         (map['coments'] as Map<dynamic, dynamic>).isNotEmpty) {
       (map['coments'] as Map<dynamic, dynamic>).forEach((key, value) {
         coments.add(Coment.fromMap(value));
->>>>>>> ad8fe7006d19ecc5cad6e96b016af53165475783
       });
     }
 
@@ -100,11 +78,7 @@ class Trail {
                 .map((point) => LatLng(point['latitude'], point['longitude']))
                 .toList()
             : [],
-<<<<<<< HEAD
-        coments: comments,
-=======
         coments: coments,
->>>>>>> ad8fe7006d19ecc5cad6e96b016af53165475783
         images: (map['images'] != null && (map['images'] as List).isNotEmpty)
             ? (map['images'] as List<dynamic>)
                 .map((image) => image['url'] as String)

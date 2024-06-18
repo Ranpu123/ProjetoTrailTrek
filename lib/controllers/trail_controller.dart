@@ -132,64 +132,6 @@ class TrailController extends ChangeNotifier {
     }
   }
 
-/*
-  Future<bool> addComment(Trail trail, Coment coment) async {
-    try {
-      trail.coments.add(coment);
-      await repository.addComent(trail, coment);
-
-      load();
-      notifyListeners();
-      return Future.value(true);
-    } catch (e) {
-      print('Erro ao adicionar comentário: $e');
-      return Future.value(false);
-    }
-  }*/
-  /*
-  Future<bool> addComment(String trailId, Coment coment) async {
-    try {
-      await repository.addComent(trailId, coment);
-      load();
-      notifyListeners();
-      return Future.value(true);
-    } catch (e) {
-      print('Erro ao adicionar comentário: $e');
-      return Future.value(false);
-    }
-  }*/
-  /* @override
- Future<bool> addComment(Trail trail, Coment comment) async {
-  try {
-    // Adiciona o comentário ao Firebase e obtém o sucesso da operação
-    bool success = await repository.addComent(trail, comment);
-    // Atualiza a lista de comentários da trilha localmente se o comentário foi adicionado com sucesso
-    if (success) {
-      trail.coments.add(comment.copyWithId(success.id));
-      notifyListeners();
-      return true;
-    }
-    return false;
-  } catch (e) {
-    print('Erro ao adicionar comentário: $e');
-    return false;
-  }
-}*/
-
-  /* Future<bool> addComment(Trail trail, Coment comment) async {
-    try {
-      bool success = await repository.addComent(trail, comment);
-      if (success) {
-        trail.coments.add(comment);
-        notifyListeners();
-        return true;
-      }
-      return false;
-    } catch (e) {
-      print('Erro ao adicionar comentário: $e');
-      return false;
-    }
-  }*/
   Future<bool> addComment(Trail trail, Coment coment) async {
     try {
       trail.coments.add(coment);
