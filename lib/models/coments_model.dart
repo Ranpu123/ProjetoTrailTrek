@@ -24,11 +24,11 @@ class Coment {
       'username': username,
       'description': description,
       'rating': rating,
-      'createdAt': createdAt,
+      'createdAt': createdAt.millisecondsSinceEpoch,
     };
   }
 
-  factory Coment.fromMap(Map<String, dynamic> map) {
+  factory Coment.fromMap(Map<dynamic, dynamic> map) {
     return Coment(
       id: map['id'],
       uid: map['uid'],
