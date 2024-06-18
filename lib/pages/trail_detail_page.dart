@@ -350,7 +350,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                             color: Colors.black,
                           ),
                         ),
-                        IconButton(
+                        /*IconButton(
                           icon: Icon(
                             _isFavorited
                                 ? Icons.favorite
@@ -359,6 +359,7 @@ class _TrailDetailsPageState extends State<TrailDetailsPage> {
                           ),
                           onPressed: _toggleFavorite,
                         ),
+                      */
                       ],
                     ),
                   ),

@@ -17,7 +17,7 @@ class Coment {
     required this.createdAt,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<dynamic, dynamic> toMap() {
     return {
       'id': id,
       'uid': uid,
@@ -28,17 +28,18 @@ class Coment {
     };
   }
 
-  factory Coment.fromMap(Map<String, dynamic> map) {
+  factory Coment.fromMap(Map<dynamic, dynamic> map) {
+    int createdAtMillis = map['createdAt'] is int ? map['createdAt'] : 0;
     return Coment(
       id: map['id'],
       uid: map['uid'],
       username: map['username'],
       description: map['description'] ?? '',
       rating: map['rating'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(createdAtMillis),
     );
   }
-//
+
   Coment.withId({
     required this.id,
     required this.uid,
@@ -59,7 +60,6 @@ class Coment {
     );
   }
 
-  //
   String toJson() => json.encode(toMap());
 
   factory Coment.fromJson(String source) => Coment.fromMap(json.decode(source));

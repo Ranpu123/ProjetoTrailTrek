@@ -123,9 +123,14 @@ class LocalTrailRepository extends TrailsRepository {
   }
 
   @override
-  Future<void> addComent(Trail trail, Coment comment) {
+  Future<bool> addComent(Trail trail, Coment comment) {
     throw UnimplementedError();
   }
+
+  @override
+  /*Future<void> addComent(String trail, Coment comment) {
+    throw UnimplementedError();
+  }*/
 
   @override
   // TODO: implement onTrailAdded

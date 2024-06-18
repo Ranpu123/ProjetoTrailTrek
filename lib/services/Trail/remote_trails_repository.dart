@@ -55,7 +55,7 @@ class RemoteTrailsRepository implements TrailsRepository {
     }
   }
 
-  @override
+  /*@override
   Future<List<Trail>> fetchAll() async {
     List<Trail> trails = [];
     try {
@@ -66,7 +66,69 @@ class RemoteTrailsRepository implements TrailsRepository {
         trails.add(trail);
       }
     } catch (e) {
-      //TODO: Finish Throw for each db operation
+      print('Erro fetchAll: $e');
+    }
+    return trails;
+  } */ /*
+  @override
+  Future<List<Trail>> fetchAll() async {
+    List<Trail> trails = [];
+    try {
+      DataSnapshot event = await _trailRef.get();
+      final trailsMap = event.value as Map<dynamic, dynamic>;
+      trailsMap.forEach((key, value) {
+        final trail = Trail.fromMap(value as Map<dynamic, dynamic>);
+        trails.add(trail);
+      });
+    } catch (e) {
+      print('Erro fetchAll: $e');
+    }
+    return trails;
+  }*/ /*
+  @override
+  Future<List<Trail>> fetchAll() async {
+    List<Trail> trails = [];
+    try {
+      DataSnapshot event = await _trailRef.get();
+      final trailsMap = event.value as Map<dynamic, dynamic>?;
+      if (trailsMap != null) {
+        trailsMap.forEach((key, value) {
+          if (value != null) {
+            final trailValue = value as Map<dynamic, dynamic>;
+            final trail = Trail.fromMap(trailValue);
+            trails.add(trail);
+          }
+        });
+      }
+    } catch (e) {
+      print('Erro fetchAll: $e');
+    }
+    return trails;
+  }*/
+  @override
+  Future<List<Trail>> fetchAll() async {
+    List<Trail> trails = [];
+    try {
+      DataSnapshot event = await _trailRef.get();
+      final trailsMap = event.value as Map<dynamic, dynamic>?;
+      if (trailsMap != null) {
+        trailsMap.forEach((key, value) {
+          print('Chave do trail: $key');
+          if (value != null) {
+            print('Valor do trail antes da conversão: $value');
+            final trailValue = value as Map<dynamic, dynamic>;
+            // Tente converter cada campo individualmente e adicione logs para cada um
+            try {
+              final trail = Trail.fromMap(trailValue);
+              trails.add(trail);
+            } catch (e) {
+              print('Erro na conversão do trail com chave $key: $e');
+            }
+          }
+        });
+      }
+    } catch (e) {
+      print('Erro geral no fetchAll: $e');
     }
     return trails;
   }
@@ -77,6 +139,7 @@ class RemoteTrailsRepository implements TrailsRepository {
     throw UnimplementedError();
   }
 
+/*
   @override
   Future<Trail?> getById(String id) async {
     try {
@@ -85,6 +148,25 @@ class RemoteTrailsRepository implements TrailsRepository {
       final trail = Trail.fromMap(map);
       return trail;
     } catch (e) {
+      print('Erro getById: $e');
+      return null;
+    }
+  }
+*/
+  @override
+  Future<Trail?> getById(String id) async {
+    try {
+      DataSnapshot snapshot = await _trailRef.child(id).get();
+      if (snapshot.value != null) {
+        final map = snapshot.value as Map<dynamic, dynamic>;
+        final trail = Trail.fromMap(map);
+        return trail;
+      } else {
+        print('Snapshot value is null');
+        return null;
+      }
+    } catch (e) {
+      print('Erro getById: $e');
       return null;
     }
   }
@@ -139,40 +221,7 @@ class RemoteTrailsRepository implements TrailsRepository {
     }
   }
 
-  @override
-  /*Future<void> addComment(Trail trail, Coment comment) async {
-    try {
-      await _trailRef.child('${trail.id}/coments').push().set(comment.toMap());
-    } catch (e) {
-      print('Ocorreu um erro ao adicionar o comentário: $e');
-    }
-  }*/ /*
-  Future<void> addComment(Trail trail, Coment comment) async {
-    String? commentId = _trailRef.child('${trail.id}/coments').push().key;
-    if (commentId == null) {
-      throw Exception("Falha ao gerar comment ID");
-    } else {
-      Coment commentWithId = comment.copyWithId(commentId);
-      await _trailRef
-          .child('${trail.id}/coments/$commentId')
-          .set(commentWithId.toMap());
-    }
-  }*/ /*
-  Future<void> addComment(Trail trail, Coment comment) async {
-    try {
-      String? commentId = _trailRef.child('${trail.id}/coments').push().key;
-      if (commentId == null) {
-        throw Exception("Falha ao gerar comment ID");
-      }
-      Coment commentWithId = comment.copyWithId(commentId);
-      await _trailRef
-          .child('${trail.id}/coments/$commentId')
-          .set(commentWithId.toMap());
-    } catch (e) {
-      print('Ocorreu um erro ao adicionar o comentário: $e');
-    }
-  }*/
-
+  /*@override
   Future<bool> addComent(Trail trail, Coment coment) async {
     try {
       DatabaseReference newRef =
@@ -188,6 +237,68 @@ class RemoteTrailsRepository implements TrailsRepository {
           .child('coments')
           .child(comentId)
           .set(comentWithId.toMap());
+      return true;
+    } catch (e) {
+      print('Erro ao adicionar comentário no Firebase: $e');
+      return false;
+    }
+  }*/
+  /*@override
+  Future<bool> addComent(String trailId, Coment coment) async {
+    try {
+      DatabaseReference newRef =
+          _trailRef.child(trailId).child('coments').push();
+      if (newRef.key == null) {
+        return false;
+      }
+      String comentId = newRef.key!;
+      Coment comentWithId = coment.copyWithId(comentId);
+
+      await _trailRef
+          .child(trailId)
+          .child('coments')
+          .child(comentId)
+          .set(comentWithId.toMap());
+      return true;
+    } catch (e) {
+      print('Erro ao adicionar comentário no Firebase: $e');
+      return false;
+    }
+  }*/ /*
+  @override
+  Future<Coment?> addComent(Trail trail, Coment comment) async {
+  try {
+    DatabaseReference newRef = _trailRef.child(trail.id!).child('coments').push();
+    String? commentId = newRef.key;
+    if (commentId == null) {
+      return null;
+    }
+
+    Coment newComment = comment.copyWithId(commentId);
+    
+    await _trailRef.child(trail.id!).child('coments').child(commentId).set(newComment.toMap());
+    return newComment;
+  } catch (e) {
+    print('Erro ao adicionar comentário no Firebase: $e');
+    return null;
+  }
+}*/
+  @override
+  Future<bool> addComent(Trail trail, Coment comment) async {
+    try {
+      DatabaseReference newRef =
+          _trailRef.child(trail.id!).child('coments').push();
+      String? commentId = newRef.key;
+      if (commentId == null) {
+        return false;
+      }
+      Coment newComment = comment.copyWithId(commentId);
+      Map<dynamic, dynamic> commentMap = newComment.toMap(); //tirar
+      await _trailRef
+          .child(trail.id!)
+          .child('coments')
+          .child(commentId)
+          .set(newComment.toMap());
       return true;
     } catch (e) {
       print('Erro ao adicionar comentário no Firebase: $e');

@@ -48,12 +48,31 @@ class Trail {
           .map((point) =>
               {'latitude': point.latitude, 'longitude': point.longitude})
           .toList(),
-      'coments': coments.map((coment) => coment.toMap()).toList(),
+      'coments': coments.map((coment) => {coment.id: coment.toMap()}).toList(),
+      /*'coments': Map.fromIterable(coments,
+          key: (comment) => comment.id,
+          value: (comment) => (comment as Coment).toMap()),*/
       'images': images.map((image) => {'url': image}),
     };
   }
 
   factory Trail.fromMap(Map<dynamic, dynamic> map) {
+    final List<Coment> comments = [];
+    /*if (map['coments'] != null) {
+      final comentsMap = map['coments'] as Map<dynamic, dynamic>;
+      comentsMap.forEach((key, value) {
+        comments.add(Coment.fromMap(value as Map<dynamic, dynamic>));
+      });
+    }*/
+    if (map['coments'] != null && map['coments'] is Map) {
+      final comentsMap = map['coments'] as Map<dynamic, dynamic>;
+      comentsMap.forEach((key, value) {
+        if (value is Map) {
+          comments.add(Coment.fromMap(value));
+        }
+      });
+    }
+
     return Trail(
         id: map['id'],
         uid: map['uid'],
@@ -70,11 +89,7 @@ class Trail {
                 .map((point) => LatLng(point['latitude'], point['longitude']))
                 .toList()
             : [],
-        coments: (map['coments'] != null && (map['coments'] as List).isNotEmpty)
-            ? (map['coments'] as List<dynamic>)
-                .map((coment) => Coment.fromMap(coment))
-                .toList()
-            : [],
+        coments: comments,
         images: (map['images'] != null && (map['images'] as List).isNotEmpty)
             ? (map['images'] as List<dynamic>)
                 .map((image) => image['url'] as String)
