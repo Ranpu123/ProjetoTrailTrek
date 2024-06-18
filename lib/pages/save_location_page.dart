@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:location/location.dart';
 import 'package:projeto_dev_disp_mob/pages/record_trail_page.dart';
 
@@ -123,63 +125,94 @@ class _SaveLocationPageState extends State<SaveLocationPage> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage("assets/images/background.png"),
-            colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.1), BlendMode.dstATop),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (isRecording)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (isRecording)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.fiber_manual_record, color: Colors.red),
+                  SizedBox(width: 8),
+                  Text(
+                    'Gravando...',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.fiber_manual_record, color: Colors.red),
-                    SizedBox(width: 8),
                     Text(
-                      'Gravando...',
-                      style: TextStyle(
-                        fontSize: 15,
+                      'Go beyond the horizon',
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.roboto(
                         fontWeight: FontWeight.bold,
-                        color: Colors.red,
+                        fontSize: 24.0,
+                        height: 0.0,
+                      ),
+                    ),
+                    Text(
+                      'Embark on your next adventure with ease '
+                      'using our app designed exclusively for adventurers.',
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15.0,
+                        height: 0.0,
                       ),
                     ),
                   ],
                 ),
-              ElevatedButton(
-                onPressed: isRecording ? stopRecording : startRecording,
-                child: Text(isRecording ? 'Parar' : 'Começar a gravar'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 23, horizontal: 32),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: isRecording ? stopRecording : startRecording,
+                        child: Text(isRecording ? 'Parar' : 'Começar a gravar'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 23, horizontal: 32),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: cancelRecording,
+                        child: Text('Cancelar'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black26,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 23, horizontal: 32),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              ElevatedButton(
-                onPressed: cancelRecording,
-                child: Text('Cancelar'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black26,
-                  foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 23, horizontal: 32),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );
